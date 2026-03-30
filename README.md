@@ -1,117 +1,63 @@
-## Auto Auctions Risk Prediction
+# Predicting Kick Cars at Auto Auctions
 
-### A Machine Learning Approach to Identifying High-Risk Vehicle Purchases
+## Overview
+A supervised machine learning project focused on predicting whether auction vehicles are likely to become problematic purchases, commonly referred to as kick cars.
 
-#### Overview
+The project combines classification modeling and explainability to address a high-value business problem in automotive remarketing and risk screening.
 
-Auto auctions involve purchasing vehicles under uncertainty, often with limited inspection and incomplete information. This project builds an end-to-end machine learning pipeline to predict whether a vehicle is likely to be a “bad buy,” helping reduce financial risk and improve procurement decisions.
+## Business Problem
+Auto auctions involve pricing and purchasing decisions under uncertainty. Buying a defective or high-risk vehicle can lead to downstream repair costs, margin erosion, and inventory inefficiency.
 
-The problem is framed as a binary classification task, where the model predicts whether a vehicle will result in downstream loss.
+The objective is to identify likely bad buys before purchase using historical auction and vehicle data.
 
-#### Problem Statement
+## Solution
+This project develops a classification pipeline that:
+- preprocesses historical vehicle and auction records
+- compares multiple candidate models
+- evaluates performance using classification metrics
+- interprets model decisions with SHAP
 
-Each vehicle is classified as:
-	•	1 (Bad Buy): likely to incur loss due to condition or pricing inefficiencies
-	•	0 (Safe Buy): expected to perform within acceptable cost and resale margins
+## Methodology
 
-The main challenge lies in class imbalance and nonlinear relationships between pricing signals, vehicle attributes, and market benchmarks.
+### Data Preparation
+Prepared auction vehicle data by cleaning records, encoding variables, and handling missingness.
 
-#### Data & Features
+### Modeling
+Tested classification approaches and selected Random Forest as the strongest performer.
 
-The dataset includes:
-	•	Vehicle characteristics (age, odometer, make/model)
-	•	Acquisition price and auction details
-	•	Market benchmarks (MMR acquisition and retail values)
-	•	Condition and transaction metadata
+### Evaluation
+Measured model performance using accuracy and ROC-AUC.
 
-Feature engineering focused on extracting meaningful economic signals:
-	•	Price differences between acquisition and market value
-	•	Depreciation patterns across age and mileage
-	•	Interaction effects between pricing and condition
+### Interpretability
+Used SHAP to identify which features most influenced high-risk predictions.
 
-Categorical features were one-hot encoded, and missing values were handled using median (numerical) and mode (categorical) imputation.
+## Results
+- Random Forest achieved 93.12% accuracy
+- ROC-AUC reached 0.9634
+- SHAP analysis improved interpretability for decision support
 
-#### Methodology
+## Tech Stack
+Python, scikit-learn, Pandas, NumPy, SHAP
 
-##### Class Imbalance Handling
+## Repository Structure
+```text
+Predicting-Kick-Cars-at-Auto-Auctions/
+├── notebooks/
+├── data/
+├── outputs/
+└── README.md
+```
 
-SMOTE (Synthetic Minority Oversampling Technique) was used to balance the dataset and improve detection of “bad buys.”
+## How to Run
+	1.	load the source dataset into the project directory
+	2.	run preprocessing and model training notebooks or scripts
+	3.	evaluate output metrics and interpret SHAP plots
 
-##### Models Trained
-	•	Logistic Regression (baseline)
-	•	Random Forest
-	•	XGBoost
-	•	LightGBM
+## Future Improvements
+	•	package preprocessing and modeling into modular scripts
+	•	introduce calibration and threshold tuning
+	•	compare gradient boosting methods
+	•	deploy an inference interface for analyst use
 
-##### Evaluation Metrics
-	•	ROC-AUC (primary metric)
-	•	Accuracy
-	•	Precision, Recall, F1-score
-
-
-#### Results
-
-Model	Accuracy	ROC-AUC
-Logistic Regression	83.94%	0.8959
-Random Forest	93.12%	0.9634
-XGBoost	92.16%	0.9579
-LightGBM	91.94%	0.9559
-
-Best Model: Random Forest
-	•	Accuracy: 93.12%
-	•	ROC-AUC: 0.9634
-	•	Precision (Bad Buy): 0.99
-	•	Recall (Bad Buy): 0.87
-	•	F1-score (Bad Buy): 0.93
-
-Tree-based ensemble models significantly outperformed the linear baseline, capturing nonlinear relationships between pricing and vehicle attributes.
-
-#### Model Interpretation
-
-SHAP (SHapley Additive Explanations) was used to interpret model predictions.
-
-##### Key insights:
-	•	Large gaps between acquisition price and market value increase risk
-	•	Pricing inconsistencies are strong predictors of bad buys
-	•	Nonlinear interactions between mileage, age, and cost are important
-
-#### Business Impact
-	•	Reduces risk of high-loss vehicle purchases
-	•	Improves procurement decision-making
-	•	Enables better inventory quality and turnover
-	•	Supports data-driven auction strategies
-
-With a ROC-AUC of 0.96+, the model provides a strong signal for identifying risky inventory before purchase.
-
-#### Tech Stack
-	•	Python (pandas, NumPy)
-	•	scikit-learn, XGBoost, LightGBM
-	•	imbalanced-learn (SMOTE)
-	•	matplotlib, seaborn
-	•	SHAP
-	•	Jupyter Notebook
-
-#### How to Run
-- git clone https://github.com/your-username/auto-auction-risk-prediction.git
-- cd auto-auction-risk-prediction
-- pip install -r requirements.txt
-- jupyter notebook
-
-#### Project Structure
-
-##### ├── data/
-##### ├── notebooks/
-##### ├── outputs/
-##### ├── models/
-##### ├── README.md
-##### └── requirements.txt
-
-#### Future Work
-	•	Hyperparameter tuning (Optuna)
-	•	Cost-sensitive modeling
-	•	Real-time inference pipeline
-	•	Integration with auction decision systems
-
-#### Summary
-
-This project demonstrates a complete machine learning workflow for risk prediction in auction environments, combining feature engineering, class imbalance handling, ensemble models, and interpretability. The resulting system is both accurate and practical for real-world deployment.
+## Author
+Ashlesha Kadam
